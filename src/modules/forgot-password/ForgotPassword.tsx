@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 import { setWindowClass } from '@app/utils/helpers';
-import * as Yup from 'yup';
+import { Button } from '@profabric/react-components';
 import { useFormik } from 'formik';
 import { Form, InputGroup } from 'react-bootstrap';
-import { Button } from '@profabric/react-components';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 const ForgotPassword = () => {
   const [t] = useTranslation();
@@ -30,12 +30,12 @@ const ForgotPassword = () => {
       <div className="card card-outline card-primary">
         <div className="card-header text-center">
           <Link to="/" className="h1">
-            <b>Admin</b>
-            <span>LTE</span>
+          <b>योजना/कार्यक्रम वेवस्थापन</b>
+            
           </Link>
         </div>
         <div className="card-body">
-          <p className="login-box-msg">{t('recover.forgotYourPassword')}</p>
+          <p className="login-box-msg">{t('आफ्नु इमेल हालेर सजिलै नयाँ पस्स्वोर्ड पउनुहोस')}</p>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <InputGroup className="mb-3">
@@ -64,12 +64,12 @@ const ForgotPassword = () => {
             </div>
             <div className="row">
               <div className="col-12">
-                <Button>{t('recover.requestNewPassword')}</Button>
+                <Button>{t('नयाँ पस्स्वोर्ड ')}</Button>
               </div>
             </div>
           </form>
           <p className="mt-3 mb-1">
-            <Link to="/login">{t('login.button.signIn.label')}</Link>
+            <Link to="/login">{t('लग-इन पेजमा जानुहोस')}</Link>
           </p>
         </div>
       </div>

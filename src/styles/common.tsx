@@ -10,8 +10,26 @@ import styled from 'styled-components';
 export const Button = styled(RawButton)`
   --pf-display: block;
   --pf-width: 100%;
+  background-color: teal;
 `;
-
+export const TealButton = styled(RawButton)`
+  background-color: teal;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 100%;
+  display: block;
+  &:hover {
+    background-color: darkcyan;
+  }
+  &:disabled {
+    background-color: lightgray;
+    cursor: not-allowed;
+  }
+`;
 export const Select = styled(RawSelect)`
   --pf-width: 100%;
   --pf-display: block;

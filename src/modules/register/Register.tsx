@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
-import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
 import { setWindowClass } from '@app/utils/helpers';
-import { Form, InputGroup } from 'react-bootstrap';
 import { Checkbox } from '@profabric/react-components';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import { Form, InputGroup } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
-import { authLogin } from '@app/utils/oidc-providers';
 import { setAuthentication } from '@app/store/reducers/auth';
 import { Button } from '@app/styles/common';
+import { authLogin } from '@app/utils/oidc-providers';
 
 const Register = () => {
   const [isAuthLoading, setAuthLoading] = useState(false);
@@ -93,12 +93,12 @@ const Register = () => {
       <div className="card card-outline card-primary">
         <div className="card-header text-center">
           <Link to="/" className="h1">
-            <b>Admin</b>
-            <span>LTE</span>
+          <b>योजना/कार्यक्रम वेवस्थापन</b>
+
           </Link>
         </div>
         <div className="card-body">
-          <p className="login-box-msg">{t('register.registerNew')}</p>
+          <p className="login-box-msg">{t('नया विवरण दर्ता गर्नुहोस')}</p>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <InputGroup className="mb-3">
@@ -183,8 +183,8 @@ const Register = () => {
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Checkbox checked={false} />
                   <label style={{ margin: 0, padding: 0, paddingLeft: '4px' }}>
-                    <span>I agree to the </span>
-                    <Link to="/">terms</Link>{' '}
+                    <span>मलाई यो <Link to="/">सर्तहरु</Link>{' '} मंजुरछ </span>
+                    
                   </label>
                 </div>
               </div>
@@ -193,35 +193,14 @@ const Register = () => {
                   loading={isAuthLoading}
                   disabled={isGoogleAuthLoading || isFacebookAuthLoading}
                 >
-                  {t('register.label')}
+                  {t('दर्ता गर्नुहोस')}
                 </Button>
               </div>
             </div>
           </form>
-          <div className="social-auth-links text-center">
-            <Button
-              className="mb-2"
-              onClick={registerByFacebook}
-              loading={isFacebookAuthLoading}
-              disabled={isAuthLoading || isGoogleAuthLoading}
-            >
-              <i className="fab fa-facebook mr-2" />
-              {t('login.button.signIn.social', {
-                what: 'Facebook',
-              })}
-            </Button>
-            <Button
-              variant="danger"
-              onClick={registerByGoogle}
-              loading={isGoogleAuthLoading}
-              disabled={isAuthLoading || isFacebookAuthLoading}
-            >
-              <i className="fab fa-google mr-2" />
-              {t('login.button.signUp.social', { what: 'Google' })}
-            </Button>
-          </div>
+          
           <Link to="/login" className="text-center">
-            {t('register.alreadyHave')}
+            {t('म संघ विवरण छ')}
           </Link>
         </div>
       </div>

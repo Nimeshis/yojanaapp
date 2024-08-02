@@ -15,8 +15,6 @@ import { Form, InputGroup } from "react-bootstrap";
 
 const Login = () => {
   const [isAuthLoading, setAuthLoading] = useState(false);
-  const [isGoogleAuthLoading, setGoogleAuthLoading] = useState(false);
-  const [isFacebookAuthLoading, setFacebookAuthLoading] = useState(false);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -27,33 +25,13 @@ const Login = () => {
       setAuthLoading(true);
       const response = await authLogin(email, password);
       dispatch(setAuthentication(response as any));
-      toast.success("Login is succeed!");
+      toast.success("लग-इन भयो!");
       setAuthLoading(false);
 
       navigate("/");
     } catch (error: any) {
       setAuthLoading(false);
-      toast.error(error.message || "Failed");
-    }
-  };
-
-  const loginByGoogle = async () => {
-    try {
-      setGoogleAuthLoading(true);
-
-      throw new Error("Not implemented");
-    } catch (error: any) {
-      setGoogleAuthLoading(false);
-      toast.error(error.message || "Failed");
-    }
-  };
-
-  const loginByFacebook = async () => {
-    try {
-      throw new Error("Not implemented");
-    } catch (error: any) {
-      setFacebookAuthLoading(false);
-      toast.error(error.message || "Failed");
+      toast.error(error.message || "केहि समस्या भयो");
     }
   };
 
@@ -63,7 +41,7 @@ const Login = () => {
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string().email("Invalid email address").required("Required"),
+      email: Yup.string().email("इमेल मिलेन").required("Required"),
       password: Yup.string()
         .min(5, "Must be 5 characters or more")
         .max(30, "Must be 30 characters or less")
@@ -81,11 +59,11 @@ const Login = () => {
       <div className="card card-outline card-primary">
         <div className="card-header text-center">
           <Link to="/" className="h1">
-            <b>Telemko</b>
+            <b>योजना/कार्यक्रम वेवस्थापन</b>
           </Link>
         </div>
         <div className="card-body">
-          <p className="login-box-msg">{t("login.label.signIn")}</p>
+          <p className="login-box-msg">{t("आफ्नो विवरण हल्नुहोस")}</p>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <InputGroup className="mb-3">
@@ -143,49 +121,26 @@ const Login = () => {
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <Checkbox checked={false} />
                   <label style={{ margin: 0, padding: 0, paddingLeft: "4px" }}>
-                    {t("login.label.rememberMe")}
+                    {t("सम्झिनुहोस")}
                   </label>
                 </div>
               </div>
               <div className="col-4">
                 <Button
                   loading={isAuthLoading}
-                  disabled={isFacebookAuthLoading || isGoogleAuthLoading}
                   onClick={handleSubmit as any}
                 >
-                  {t("login.button.signIn.label")}
+                  {t("साइन इन")}
                 </Button>
               </div>
             </div>
           </form>
-          <div className="social-auth-links text-center mt-2 mb-3">
-            <Button
-              className="mb-2"
-              onClick={loginByFacebook}
-              loading={isFacebookAuthLoading}
-              disabled={isAuthLoading || isGoogleAuthLoading}
-            >
-              <i className="fab fa-facebook mr-2" />
-              {t("login.button.signIn.social", {
-                what: "Facebook",
-              })}
-            </Button>
-            <Button
-              variant="danger"
-              onClick={loginByGoogle}
-              loading={isGoogleAuthLoading}
-              disabled={isAuthLoading || isFacebookAuthLoading}
-            >
-              <i className="fab fa-google mr-2" />
-              {t("login.button.signIn.social", { what: "Google" })}
-            </Button>
-          </div>
           <p className="mb-1">
-            <Link to="/forgot-password">{t("login.label.forgotPass")}</Link>
+            <Link to="/forgot-password">{t("विवरण बिर्शिनुभायो?")}</Link>
           </p>
           <p className="mb-0">
             <Link to="/register" className="text-center">
-              {t("login.label.registerNew")}
+              {t("नया विवरण बनाउनुहोस्")}
             </Link>
           </p>
         </div>
