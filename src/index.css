@@ -1,0 +1,74 @@
+@import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700');
+
+@import 'admin-lte/plugins/fontawesome-free/css/all.min.css';
+@import 'admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css';
+@import 'admin-lte/dist/css/adminlte.min.css';
+
+@import 'react-toastify/dist/ReactToastify.min.css';
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.main-header .navbar-nav .nav-item .nav-link {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Set text color to black for the custom navbar */
+.navbar-ccccff {
+  background-color: 	#93C572 !important;
+  color: #000000 !important;
+}
+
+/* Set text color to black for the custom sidebar */
+.sidebar-dark-ccccff,
+.sidebar-light-ccccff {
+  background-color: 	#93C572 !important;
+  color: #000000 
+}
+
+/* Change sidebar menu item hover color */
+.sidebar-dark-ccccff .nav-sidebar .nav-link:hover,
+.sidebar-light-ccccff .nav-sidebar .nav-link:hover {
+  background-color: #00A36C !important;
+  color: #0c0c0c !important;
+}
+
+/* Optional: Change active sidebar menu item background color */
+.sidebar-dark-ccccff .nav-sidebar .nav-link.active,
+.sidebar-light-ccccff .nav-sidebar .nav-link.active {
+  background-color: #00A36C !important;
+  color: #f7e6e6 !important;
+}
+
+.bg-custom {
+  background-color: #b3b3ff;
+}
+
+/* Loader styles */
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  margin: 50px auto;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #000;
+  border-radius: 50%;
+  animation: spinner 1.2s linear infinite;
+}
+

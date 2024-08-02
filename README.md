@@ -1,2 +1,1 @@
-# yojanaapp
-yojanaapp
+# yojana
