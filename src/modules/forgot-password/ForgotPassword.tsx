@@ -1,11 +1,22 @@
 import { setWindowClass } from '@app/utils/helpers';
-import { Button } from '@profabric/react-components';
+import { Image } from '@profabric/react-components';
 import { useFormik } from 'formik';
 import { Form, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import styled from "styled-components";
 import * as Yup from 'yup';
+
+
+const StyledBrandImage = styled(Image)`
+  float: left;
+  line-height: 0.8;
+  margin: 4px 6px 5px;
+  // opacity: 0.8;
+  // --pf-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+    // 0 6px 6px rgba(0, 0, 0, 0.23) !important;
+`;
 
 const ForgotPassword = () => {
   const [t] = useTranslation();
@@ -27,15 +38,22 @@ const ForgotPassword = () => {
 
   return (
     <div className="login-box">
-      <div className="card card-outline card-primary">
+      <div className="card card-outline card-success">
         <div className="card-header text-center">
-          <Link to="/" className="h1">
-          <b>योजना/कार्यक्रम वेवस्थापन</b>
-            
-          </Link>
+        <Link to="/" className="brand-link">
+        <StyledBrandImage
+          src="./src/assets/nepallogo.png"
+          alt="Nepal Sarkar Logo"
+          width={50}
+          height={50}
+          rounded
+        />
+        
+      </Link>
+      <span className="h3 font-weight-bold ">योजना/कार्यक्रम व्यस्थापन </span>
         </div>
         <div className="card-body">
-          <p className="login-box-msg">{t('आफ्नु इमेल हालेर सजिलै नयाँ पस्स्वोर्ड पउनुहोस')}</p>
+          <p className="login-box-msg">{t('आफ्नु इमेल हालेर सजिलै नयाँ पास्स्वोर्ड पाउनुहोस्')}</p>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <InputGroup className="mb-3">
@@ -43,7 +61,7 @@ const ForgotPassword = () => {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="Email"
+                  placeholder="इमेल हाल्नुहोस्"
                   onChange={handleChange}
                   value={values.email}
                   isValid={touched.email && !errors.email}
@@ -63,9 +81,22 @@ const ForgotPassword = () => {
               </InputGroup>
             </div>
             <div className="row">
-              <div className="col-12">
-                <Button>{t('नयाँ पस्स्वोर्ड ')}</Button>
-              </div>
+              <div className="col-md-12 ">
+              <button
+                  className="btn-success"
+                  onClick={handleSubmit as any}
+                  style={{
+                    borderRadius: "50px",
+                    padding: "8px 8px",
+                    // marginLeft: "23px",
+                    border: "none",
+                    outline: "none",
+                    cursor: "pointer",
+                    transition: "background-color 0.3s ease",
+                  }}
+                >
+                  {t("नयाँ पास्स्वोर्ड पाउनुहोस्")}
+                </button>              </div>
             </div>
           </form>
           <p className="mt-3 mb-1">

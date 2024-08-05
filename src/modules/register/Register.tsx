@@ -10,8 +10,18 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { setAuthentication } from '@app/store/reducers/auth';
-import { Button } from '@app/styles/common';
 import { authLogin } from '@app/utils/oidc-providers';
+import { Image } from "@profabric/react-components";
+import styled from "styled-components";
+
+const StyledBrandImage = styled(Image)`
+  float: left;
+  line-height: 0.8;
+  margin: 4px 6px 5px;
+  // opacity: 0.8;
+  // --pf-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+  // 0 6px 6px rgba(0, 0, 0, 0.23) !important;
+`;
 
 const Register = () => {
   const [isAuthLoading, setAuthLoading] = useState(false);
@@ -90,15 +100,23 @@ const Register = () => {
 
   return (
     <div className="register-box">
-      <div className="card card-outline card-primary">
+      <div className="card card-outline card-success">
         <div className="card-header text-center">
-          <Link to="/" className="h1">
-          <b>योजना/कार्यक्रम वेवस्थापन</b>
-
+        <Link to="/" className="brand-link">
+            <StyledBrandImage
+              src="./src/assets/nepallogo.png"
+              alt="Nepal Sarkar Logo"
+              width={50}
+              height={50}
+              rounded
+            />
           </Link>
+          <span className="h3 font-weight-bold ">
+            योजना/कार्यक्रम व्यस्थापन{" "}
+          </span>
         </div>
         <div className="card-body">
-          <p className="login-box-msg">{t('नया विवरण दर्ता गर्नुहोस')}</p>
+          <p className="login-box-msg">{t('नयाँ विवरण दर्ता गर्नुहोस्')}</p>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <InputGroup className="mb-3">
@@ -106,7 +124,7 @@ const Register = () => {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="Email"
+                  placeholder="इमेल हाल्नुहोस्"
                   onChange={handleChange}
                   value={values.email}
                   isValid={touched.email && !errors.email}
@@ -131,7 +149,7 @@ const Register = () => {
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Password"
+                  placeholder="पास्स्वोर्ड हाल्नुहोस्"
                   onChange={handleChange}
                   value={values.password}
                   isValid={touched.password && !errors.password}
@@ -157,7 +175,7 @@ const Register = () => {
                   id="passwordRetype"
                   name="passwordRetype"
                   type="password"
-                  placeholder="Retype password"
+                  placeholder="पुन पास्वोर्ड हाल्नुहोस्"
                   onChange={handleChange}
                   value={values.passwordRetype}
                   isValid={touched.passwordRetype && !errors.passwordRetype}
@@ -183,18 +201,27 @@ const Register = () => {
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Checkbox checked={false} />
                   <label style={{ margin: 0, padding: 0, paddingLeft: '4px' }}>
-                    <span>मलाई यो <Link to="/">सर्तहरु</Link>{' '} मंजुरछ </span>
+                    <span>मलाई यो <Link to="/">सर्तहरु</Link>{' '} मंजुर छ </span>
                     
                   </label>
                 </div>
               </div>
               <div className="col-5">
-                <Button
-                  loading={isAuthLoading}
-                  disabled={isGoogleAuthLoading || isFacebookAuthLoading}
+              <button
+                  className="btn-success"
+                  onClick={handleSubmit as any}
+                  style={{
+                    borderRadius: "50px",
+                    padding: "8px 8px",
+                    marginLeft: "23px",
+                    border: "none",
+                    outline: "none",
+                    cursor: "pointer",
+                    transition: "background-color 0.3s ease",
+                  }}
                 >
-                  {t('दर्ता गर्नुहोस')}
-                </Button>
+                  {t("दर्ता गर्नुहोस")}
+                </button>
               </div>
             </div>
           </form>

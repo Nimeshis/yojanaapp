@@ -10,10 +10,10 @@ import styled from 'styled-components';
 export const Button = styled(RawButton)`
   --pf-display: block;
   --pf-width: 100%;
-  background-color: teal;
+  background-color: green;
 `;
 export const TealButton = styled(RawButton)`
-  background-color: teal;
+  background-color: green;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -23,7 +23,7 @@ export const TealButton = styled(RawButton)`
   width: 100%;
   display: block;
   &:hover {
-    background-color: darkcyan;
+    background-color: green;
   }
   &:disabled {
     background-color: lightgray;
