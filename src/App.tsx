@@ -142,7 +142,7 @@ const App = () => {
             <Route path="/employees" element={<Employees />} />
             <Route path="/excel" element={<ExcelUpload />} />
             <Route path="/genderTypes" element={<GenderTypes />} />
-            <Route path="/registration-list" element={<RegistrationList />} />
+            <Route path="/registrationList" element={<RegistrationList />} />
             <Route path="/subFieldtype" element={<SubFieldType />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/units" element={<Units />} />

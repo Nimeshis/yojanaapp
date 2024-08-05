@@ -83,7 +83,7 @@ export const MENU: IMenuItem[] = [
       {
         name: i18n.t("सुची दर्ता"),
 
-        path: "/planForm",
+        path: "/registrationList",
       },
       {
         name: i18n.t("कर्मचारी"),
