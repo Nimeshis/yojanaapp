@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://192.168.1.116:3000";
+const baseURL = "http://localhost:3000";
 
 const fetchDataFromAPI = async (method, apiEndpoint, data, id) => {
   try {

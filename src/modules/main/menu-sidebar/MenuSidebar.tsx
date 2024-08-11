@@ -159,15 +159,13 @@ export const MENU: IMenuItem[] = [
 const StyledBrandImage = styled(Image)`
   float: left;
   line-height: 0.8;
-  margin: -1px 8px 0 6px;
+  margin: 3px 2px 0 2px;
   opacity: 0.8;
   --pf-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
     0 6px 6px rgba(0, 0, 0, 0.23) !important;
 `;
 
-const StyledUserImage = styled(Image)`
-  --pf-box-shadow: 0 3px 6px #00000029, 0 3px 6px #0000003b !important;
-`;
+
 
 const MenuSidebar = () => {
   const authentication = useSelector((state: any) => state.auth.authentication);
@@ -176,32 +174,23 @@ const MenuSidebar = () => {
   const menuChildIndent = useSelector((state: any) => state.ui.menuChildIndent);
 
   return (
-    <aside className={`main-sidebar elevation-4 ${sidebarSkin}`}>
+    <aside className={`main-sidebar elevation-2 ${sidebarSkin}`}>
       <Link to="/" className="brand-link">
         <StyledBrandImage
-          src="/img/logo.png"
+          src="./src/assets/nepallogo.png"
           alt="AdminLTE Logo"
-          width={33}
-          height={33}
+          width={40}
+          height={40}
           rounded
         />
-        <span className="brand-text font-weight-light">योजना </span>
+        <span className="brand-text font-weight-bold ">योजना/कार्यक्रम<br></br>वेवस्थापन </span>
       </Link>
       <div className="sidebar">
         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-          <div className="image">
-            <StyledUserImage
-              src={authentication.profile.picture}
-              fallbackSrc="/img/default-profile.png"
-              alt="User"
-              width={34}
-              height={34}
-              rounded
-            />
-          </div>
+         
           <div className="info">
             <Link to="/profile" className="d-block">
-              {authentication.profile.email}
+              {<span className="brand-text font-weight-bold ">बिराटनगर महानगरपालिका</span>}
             </Link>
           </div>
         </div>

@@ -7,7 +7,6 @@ import {
 import { GoogleProvider } from '@app/utils/oidc-providers';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -50,11 +49,11 @@ const UserDropdown = () => {
     <UserMenuDropdown isOpen={dropdownOpen} hideArrow>
       <StyledSmallUserImage
         slot="head"
-        src={authentication.profile.picture}
-        fallbackSrc="/img/default-profile.png"
+        // src={authentication.profile.picture}
+        fallbackSrc="./src/assets/favicon.ico"
         alt="User"
-        width={25}
-        height={25}
+        width={30}
+        height={30}
         rounded
       />
       <div slot="body">
@@ -62,10 +61,10 @@ const UserDropdown = () => {
         <UserFooter>
           <ul>
             <li>
-              <FaUser/>
+              
           <button
             type="button"
-            className="btn btn-default btn-flat "
+            className="btn btn-info btn-flat "
             onClick={navigateToProfile}
             >
             {t('प्रोफाइल')}
@@ -74,7 +73,7 @@ const UserDropdown = () => {
             <li>
           <button
             type="button"
-            className="btn btn-default btn-flat "
+            className="btn btn-danger btn-flat "
             onClick={logOut}
           >
             {t('साइन आउट')}

@@ -1,71 +1,74 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
-import { useMemo, useState } from 'react';
-
-// Define data with three rows
-const data = [
-  { unit: 'किलोमिटर', description: '--', actions: '' },
-  { unit: 'वर्गमिटर', description: '--', actions: '' },
-  { unit: 'सारणी', description: '--', actions: '' },
-  { unit: 'हजार', description: '--', actions: '' },
-  { unit: 'लिटर', description: '--', actions: '' },
-  { unit: 'किलोग्राम', description: '--', actions: '' },
-  { unit: 'मिटर', description: '--', actions: '' },
-  { unit: 'घनमिटर', description: '--', actions: '' },
-  { unit: 'सेन्टिमिटर', description: '--', actions: '' },
-  { unit: 'मिलिमिटर', description: '--', actions: '' },
-  { unit: 'अम्पियर', description: '--', actions: '' },
-  { unit: 'वोल्ट', description: '--', actions: '' },
-  { unit: 'वाट', description: '--', actions: '' },
-  { unit: 'मासिक', description: '--', actions: '' },
-  { unit: 'साप्ताहिक', description: '--', actions: '' },
-  { unit: 'दैनिक', description: '--', actions: '' },
-  { unit: 'घण्टा', description: '--', actions: '' },
-  { unit: 'सेकेन्ड', description: '--', actions: '' },
-  { unit: 'डिग्री', description: '--', actions: '' },
-  { unit: 'रेडियन', description: '--', actions: '' },
-  { unit: 'पिक्सल', description: '--', actions: '' },
-  { unit: 'जोल', description: '--', actions: '' },
-  { unit: 'डेसिबल', description: '--', actions: '' },
-  { unit: 'ग्रेड', description: '--', actions: '' },
-  { unit: 'टन', description: '--', actions: '' },
-  { unit: 'गैलन', description: '--', actions: '' },
-  { unit: 'पाउन्ड', description: '--', actions: '' },
-  { unit: 'यार्ड', description: '--', actions: '' },
-  { unit: 'फुट', description: '--', actions: '' },
-];
+import fetchDataFromAPI from "@app/modules/api/api"; // Import the API function
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import IconButton from "@mui/material/IconButton";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
+import { useEffect, useMemo, useState } from "react";
 
 const Units = () => {
-  const [tableData, setTableData] = useState(data);
+  const [tableData, setTableData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
-  const [dialogMode, setDialogMode] = useState('create'); // 'create' or 'edit'
+  const [dialogMode, setDialogMode] = useState("create"); // 'create' or 'edit'
   const [currentRow, setCurrentRow] = useState(null);
+  const [newUnit, setNewUnit] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+
+  // Fetch data from the API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetchDataFromAPI("GET", "unit");
+        setTableData(response);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'unit',
-        header: 'इकाई',
+        accessorKey: "unit",
+        header: "इकाई",
         size: 150,
       },
       {
-        accessorKey: 'description',
-        header: 'वर्णन',
+        accessorKey: "description",
+        header: "वर्णन",
         size: 250,
       },
       {
-        id: 'actions',
-        header: 'कार्य',
+        id: "actions",
+        header: "कार्य",
         size: 150,
         Cell: ({ row }) => (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <IconButton onClick={() => handleEdit(row.original)} color="primary">
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <IconButton
+              onClick={() => handleEdit(row.original)}
+              color="primary"
+            >
               <EditIcon />
             </IconButton>
-            <IconButton onClick={() => handleDelete(row.index)} color="secondary">
+            <IconButton
+              onClick={() => handleDelete(row.original.id)} // Use the API to delete
+              color="secondary"
+            >
               <DeleteIcon />
             </IconButton>
           </div>
@@ -75,9 +78,16 @@ const Units = () => {
     []
   );
 
-  const handleOpen = (mode = 'create', row = null) => {
+  const handleOpen = (mode = "create", row = null) => {
     setDialogMode(mode);
     setCurrentRow(row);
+    if (row) {
+      setNewUnit(row.unit);
+      setNewDescription(row.description);
+    } else {
+      setNewUnit("");
+      setNewDescription("");
+    }
     setOpenDialog(true);
   };
 
@@ -86,28 +96,52 @@ const Units = () => {
     setCurrentRow(null);
   };
 
-  const handleSave = () => {
-    if (dialogMode === 'create') {
-      setTableData([...tableData, { unit: newUnit, description: newDescription, actions: '' }]);
-    } else {
-      setTableData(tableData.map(row => row.unit === currentRow.unit ? { ...currentRow, unit: newUnit, description: newDescription } : row));
+  const handleSave = async () => {
+    try {
+      if (dialogMode === "create") {
+        // Add a new unit
+        const newData = await fetchDataFromAPI("POST", "unit", {
+          unit: newUnit,
+          description: newDescription,
+        });
+        setTableData([...tableData, newData]);
+      } else {
+        // Edit an existing unit
+        const updatedData = await fetchDataFromAPI(
+          "PUT",
+          `unit/${currentRow.id}`,
+          {
+            unit: newUnit,
+            description: newDescription,
+          }
+        );
+        setTableData(
+          tableData.map((row) => (row.id === currentRow.id ? updatedData : row))
+        );
+      }
+      handleClose();
+    } catch (error) {
+      console.error("Error saving data:", error);
     }
-    handleClose();
   };
 
   const handleEdit = (row) => {
-    setNewUnit(row.unit);
-    setNewDescription(row.description);
-    handleOpen('edit', row);
+    handleOpen("edit", row);
   };
 
-  const handleDelete = (rowIndex) => {
-    const newData = tableData.filter((_, index) => index !== rowIndex);
-    setTableData(newData);
-  };
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this unit?"
+    );
+    if (!confirmed) return;
 
-  const [newUnit, setNewUnit] = useState('');
-  const [newDescription, setNewDescription] = useState('');
+    try {
+      await fetchDataFromAPI("DELETE", `unit/${id}`);
+      setTableData(tableData.filter((row) => row.id !== id));
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  };
 
   const table = useMaterialReactTable({
     columns,
@@ -116,17 +150,39 @@ const Units = () => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "16px",
+        }}
+      >
         <h1>इकाई</h1>
-        <Button variant="contained" color="primary" onClick={() => handleOpen('create')}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleOpen("create")}
+        >
           नया थप्नुहोस
         </Button>
       </div>
 
-      <MaterialReactTable table={table} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: "16px",
+        }}
+      >
+        {loading ? <CircularProgress /> : <MaterialReactTable table={table} />}
+      </div>
 
       <Dialog open={openDialog} onClose={handleClose}>
-        <DialogTitle>{dialogMode === 'create' ? 'नया थप्नुहोस्' : 'सच्याउनुहोस्'}</DialogTitle>
+        <DialogTitle>
+          {dialogMode === "create" ? "नया थप्नुहोस्" : "सच्याउनुहोस्"}
+        </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -151,7 +207,7 @@ const Units = () => {
             Cancel
           </Button>
           <Button onClick={handleSave} color="primary">
-            {dialogMode === 'create' ? 'Add' : 'Save'}
+            {dialogMode === "create" ? "Add" : "Save"}
           </Button>
         </DialogActions>
       </Dialog>

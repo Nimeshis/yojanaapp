@@ -1,6 +1,5 @@
 import UserDropdown from '@app/modules/main/header/user-dropdown/UserDropdown';
 import {
-  toggleControlSidebar,
   toggleSidebarMenu,
 } from '@app/store/reducers/ui';
 import { useCallback } from 'react';
@@ -18,9 +17,7 @@ const Header = () => {
     dispatch(toggleSidebarMenu());
   };
 
-  const handleToggleControlSidebar = () => {
-    dispatch(toggleControlSidebar());
-  };
+ 
 
   const getContainerClasses = useCallback(() => {
     let classes = `main-header navbar navbar-expand ${navbarVariant}`;
@@ -44,7 +41,7 @@ const Header = () => {
         </li>
         <li className="nav-item d-none d-sm-inline-block">
           <Link to="/" className="nav-link">
-            {t('योजना  ')}
+            <span className="brand-text font-weight-bold ">बिराटनगर महानगरपालिका</span> 
           </Link>
         </li>
         
@@ -52,15 +49,7 @@ const Header = () => {
       <ul className="navbar-nav ml-auto">
         
         <UserDropdown />
-        <li className="nav-item">
-          <button
-            type="button"
-            className="nav-link"
-            onClick={handleToggleControlSidebar}
-          >
-            <i className="fas fa-th-large" />
-          </button>
-        </li>
+        
       </ul>
     </nav>
   );

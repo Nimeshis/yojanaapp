@@ -1,12 +1,11 @@
-import ControlSidebar from "@app/modules/main/control-sidebar/ControlSidebar";
 import Header from "@app/modules/main/header/Header";
-import MenuSidebar from "@app/modules/main/menu-sidebar/MenuSidebar";
 import { toggleSidebarMenu } from "@app/store/reducers/ui";
 import { addWindowClass, removeWindowClass } from "@app/utils/helpers";
 import { Image } from "@profabric/react-components";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
+import MenuSidebar from "./menu-sidebar/MenuSidebar";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -69,8 +68,8 @@ const Main = () => {
         <div className="preloader flex-column justify-content-center align-items-center">
           <Image
             className="animation__shake"
-            src="/img/logo.png"
-            alt="AdminLTELogo"
+            src="./src/assets/nepallogo.png "
+            alt="NepalSarkharLogo"
             height={60}
             width={60}
           />
@@ -90,13 +89,7 @@ const Main = () => {
           </section>
         </div>
 
-        <ControlSidebar />
-        <div
-          id="sidebar-overlay"
-          role="presentation"
-          onClick={handleToggleMenuSidebar}
-          onKeyDown={() => {}}
-        />
+       
       </>
     );
   }, [isAppLoaded]);
