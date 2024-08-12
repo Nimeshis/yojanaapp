@@ -6,6 +6,7 @@ import Login from "@modules/login/Login";
 import Main from "@modules/main/Main";
 import RecoverPassword from "@modules/recover-password/RecoverPassword";
 import Register from "@modules/register/Register";
+
 import { useEffect, useState } from "react";
 import ReactGA from "react-ga4";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,17 +16,17 @@ import { ToastContainer } from "react-toastify";
 import AllocationType from "@app/pages/settings/AllocationType";
 import Contengency from "@app/pages/settings/Contengency";
 import DeductionDetail from "@app/pages/settings/DeductionDetail";
-import Dashboard from "././pages/settings/Dashboard";
 import ExpenceType from "././pages/settings/ExpenceType";
 import FieldType from "././pages/settings/FieldType";
+import BudgetShrot from "./pages/BugetShrot";
 import KaryakramSanchalan from "./pages/KaryakramSanchalanPrakiya";
 import NayaYojana from "./pages/Nayayojana";
 import Profile from "./pages/profile/Profile";
 import CommitteeDescription from "./pages/report/CommitteeDescription";
 import LanduseReport from "./pages/report/LandUseReport";
 import PlanDetail from "./pages/report/PlanDetail";
-
 import QuantitativeDetail from "./pages/report/QuantitativeDetail";
+import { default as SamitiGathan } from "./pages/SamitiGathan";
 import Bank from "./pages/settings/Bank";
 import CommitteePosition from "./pages/settings/CommitteePosition";
 import EmployeePosition from "./pages/settings/EmployeePosition";
@@ -119,21 +120,24 @@ const App = () => {
         </Route>
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/" element={<Main />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<SamitiGathan />} />
             <Route path="/yojana" element={<Yojana />} />
             <Route path="/nayaYojana" element={<NayaYojana />} />
             <Route path="/yojanaSanchalan" element={<YojanaSanchalan />} />
+            <Route path="/bugetShrot" element={<BudgetShrot />} />
             <Route
               path="/karyakramSanchalan"
               element={<KaryakramSanchalan />}
             />
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route
               path="/karyakram-sanchalan"
               element={<KaryakramSanchalan />}
             />
             <Route path="/naya-yojana" element={<NayaYojana />} />
-            <Route path="/committeeDescription" element={<CommitteeDescription />} />
+            <Route
+              path="/committeeDescription"
+              element={<CommitteeDescription />}
+            />
             <Route path="/landuseReport" element={<LanduseReport />} />
             <Route path="/planForm" element={<PlanForm />} />
             <Route path="/planDetail" element={<PlanDetail />} />
@@ -152,12 +156,14 @@ const App = () => {
             <Route path="/bank" element={<Bank />} />
             <Route path="/expenceType" element={<ExpenceType />} />
             <Route path="/fieldType" element={<FieldType />} />
-            <Route path="/contengency" element={<Contengency/>}/>
-            <Route path="/employeePosition" element={<EmployeePosition/>}/>
-            <Route path="/grantType" element={<GrantTypes/>}/>
-            <Route path="/allocationType" element={<AllocationType/>}/>
-            <Route path="/quantitativeDetail" element={<QuantitativeDetail/>}/>
-
+            <Route path="/contengency" element={<Contengency />} />
+            <Route path="/employeePosition" element={<EmployeePosition />} />
+            <Route path="/grantType" element={<GrantTypes />} />
+            <Route path="/allocationType" element={<AllocationType />} />
+            <Route
+              path="/quantitativeDetail"
+              element={<QuantitativeDetail />}
+            />
           </Route>
         </Route>
       </Routes>

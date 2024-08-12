@@ -158,24 +158,18 @@ export const MENU: IMenuItem[] = [
 
 const StyledBrandImage = styled(Image)`
   float: left;
-  line-height: 0.8;
-  margin: 3px 2px 0 2px;
+  margin: 3px 10px;
   opacity: 0.8;
-  --pf-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
-    0 6px 6px rgba(0, 0, 0, 0.23) !important;
 `;
 
-
-
-const MenuSidebar = () => {
-  const authentication = useSelector((state: any) => state.auth.authentication);
+const Navbar = () => {
   const sidebarSkin = useSelector((state: any) => state.ui.sidebarSkin);
   const menuItemFlat = useSelector((state: any) => state.ui.menuItemFlat);
   const menuChildIndent = useSelector((state: any) => state.ui.menuChildIndent);
 
   return (
-    <aside className={`main-sidebar elevation-2 ${sidebarSkin}`}>
-      <Link to="/" className="brand-link">
+    <nav className={`navbar navbar-expand-lg ${sidebarSkin}`} style={{ backgroundColor: '#343a40' }}>
+      <Link to="/" className="navbar-brand">
         <StyledBrandImage
           src="./src/assets/nepallogo.png"
           alt="AdminLTE Logo"
@@ -183,40 +177,27 @@ const MenuSidebar = () => {
           height={40}
           rounded
         />
-        <span className="brand-text font-weight-bold ">योजना/कार्यक्रम<br></br>वेवस्थापन </span>
+        <span className="brand-text font-weight-bold">योजना/कार्यक्रम वेवस्थापन</span>
       </Link>
-      <div className="sidebar">
-        <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-         
-          <div className="info">
-            <Link to="/profile" className="d-block">
-              {<span className="brand-text font-weight-bold ">बिराटनगर महानगरपालिका</span>}
-            </Link>
-          </div>
-        </div>
 
-        <div className="form-inline">
-          <SidebarSearch />
-        </div>
-
-        <nav className="mt-2" style={{ overflowY: "hidden" }}>
-          <ul
-            className={`nav nav-pills nav-sidebar flex-column${
-              menuItemFlat ? " nav-flat" : ""
-            }${menuChildIndent ? " nav-child-indent" : ""}`}
-            role="menu"
-          >
-            {MENU.map((menuItem: IMenuItem) => (
-              <MenuItem
-                key={menuItem.name + menuItem.path}
-                menuItem={menuItem}
-              />
-            ))}
-          </ul>
-        </nav>
+      <div className="collapse navbar-collapse">
+        <ul className="navbar-nav mr-auto">
+          {MENU.map((menuItem: IMenuItem) => (
+            <li className="nav-item" key={menuItem.name + menuItem.path}>
+              <Link to={menuItem.path} className="nav-link">
+                <i className={menuItem.icon}></i>
+                {menuItem.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
-    </aside>
+
+      <div className="navbar-search">
+        <SidebarSearch />
+      </div>
+    </nav>
   );
 };
 
-export default MenuSidebar;
+export default Navbar;

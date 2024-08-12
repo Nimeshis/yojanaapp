@@ -28,6 +28,9 @@ export const NAVBAR_DARK_VARIANTS: Array<Option> = [
   { value: 'navbar-gray-dark navbar-dark', label: 'Gray Dark' },
   { value: 'navbar-gray navbar-dark', label: 'Gray' },
   { value: 'navbar-ccccff navbar-dark', label: 'Custom Dark' }, // New color
+  { value: 'navbar-1E90FF navbar-dark', label: 'dodgerblue' }, // New color
+
+
 
 ];
 

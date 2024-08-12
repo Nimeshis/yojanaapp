@@ -1,214 +1,53 @@
-import { ErrorMessage, Field, FieldArray, Formik } from "formik";
-import * as Yup from "yup";
-import fetchDataFromAPI from "../api/api";
+import fetchDataFromAPI from "@app/modules/api/api";
+import { Button, TextField } from "@mui/material";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
-const AddForm = ({ onClose, title, apiEndPoint, onDataPosted }) => {
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    status: Yup.boolean().required("Status is required"),
-    description: Yup.string().required("Description is required"),
-    customFields: Yup.array().of(
-      Yup.object().shape({
-        key: Yup.string(),
-        type: Yup.string(),
-        value: Yup.string(),
-      })
-    ),
-  });
+const DartaForm = ({ endpoint }) => {
+  const [dartaNumber, setDartaNumber] = useState("");
+  const [error, setError] = useState("");
+  const history = useHistory();
 
-  const handleModalSave = async (values, resetForm) => {
+  const handleFetchDarta = async () => {
     try {
-      const customLabels = values.customFields.map((field) => ({
-        key: field.key,
-        type: field.type,
-        // Convert value to number if type is "number"
-        value: field.type === "number" ? parseFloat(field.value) : field.value,
-      }));
-
-      const dataToSend = {
-        name: values.name,
-        description: values.description,
-        
-        custom_labels: customLabels,
-      };
-
-      const response = await fetchDataFromAPI("POST", apiEndPoint, dataToSend);
-      console.log("response :>> ", JSON.stringify(response));
-      console.log("response.data", response.data);
-
-      if (response && response.data) {
-        onDataPosted(response.data);
-        onClose();
-      } else {
-        throw new Error("Failed to submit form data: Invalid response");
+      if (!dartaNumber) {
+        setError("Please enter a Darta number");
+        return;
       }
-    } catch (err) {
-      console.error("Error:", err);
+      const data = await fetchDataFromAPI("GET", `${endpoint}/${dartaNumber}`);
+      if (data) {
+        history.push(`/plan/${dartaNumber}`, { data });
+      } else {
+        setError("Darta number not found.");
+      }
+    } catch (error) {
+      setError("Error fetching data. Please try again.");
     }
   };
 
   return (
-    <div className="modal" style={{ display: "block" }}>
-      <div className="modal-dialog modal-lg">
-        <div className="modal-content" style={{ borderRadius: "15px" }}>
-          <div className="modal-header">
-            <h5 className="modal-title"> {title}</h5>
-            <button type="button" className="close" onClick={onClose}>
-              <span>&times;</span>
-            </button>
-          </div>
-          <Formik
-            initialValues={{
-              name: "",
-              description: "",
-              status: false,
-              customFields: [{ key: "", type: "", value: "" }],
-            }}
-            validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
-              handleModalSave(values);
-              setSubmitting(false);
-            }}
-          >
-            {({ values, handleSubmit, isSubmitting }) => (
-              <form onSubmit={handleSubmit}>
-                <div className="modal-body">
-                  <div className="row">
-                    <div className="col">
-                      <label htmlFor="name">नाम</label>
-                      <Field
-                        type="text"
-                        className="form-control"
-                        name="name"
-                        placeholder="नाम लेख्नुहोस"
-                      />
-                      <ErrorMessage
-                        name="name"
-                        component="div"
-                        className="text-danger"
-                      />
-                    </div>
-                  
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="description">वर्णन</label>
-                    <Field
-                      as="textarea"
-                      className="form-control"
-                      name="description"
-                      placeholder="वर्णन गर्नुहोस "
-                      style={{ height: "100px" }}
-                    />
-                    <ErrorMessage
-                      name="description"
-                      component="div"
-                      className="text-danger"
-                    />
-                  </div>
-
-                  <h>Custom Label</h>
-                  <FieldArray name="customFields">
-                    {({ push, remove }) => (
-                      <div>
-                        {values.customFields.map((field, index) => (
-                          <div className="row" key={index}>
-                            <div className="col">
-                              <Field
-                                type="text"
-                                name={`customFields.${index}.key`}
-                                className="form-control"
-                                placeholder="Enter Key"
-                              />
-                              <ErrorMessage
-                                name={`customFields.${index}.key`}
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
-                            <div className="col">
-                              <Field
-                                as="select"
-                                name={`customFields.${index}.type`}
-                                className="form-control"
-                              >
-                                <option value="">Select Type</option>
-                                <option value="string">String</option>
-                                <option value="number">Number</option>
-                                <option value="date">Date</option>
-                              </Field>
-                              <ErrorMessage
-                                name={`customFields.${index}.type`}
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
-                            <div className="col">
-                              {values.customFields[index].type === "date" ? (
-                                <Field
-                                  type="date"
-                                  name={`customFields.${index}.value`}
-                                  className="form-control"
-                                />
-                              ) : values.customFields[index].type ===
-                                "number" ? (
-                                <Field
-                                  type="number"
-                                  name={`customFields.${index}.value`}
-                                  className="form-control"
-                                  placeholder="Enter Value"
-                                />
-                              ) : (
-                                <Field
-                                  type="text"
-                                  name={`customFields.${index}.value`}
-                                  className="form-control"
-                                  placeholder="Enter Value"
-                                />
-                              )}
-                              <ErrorMessage
-                                name={`customFields.${index}.value`}
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
-                            <div className="col">
-                              <button
-                                type="button"
-                                onClick={() => remove(index)}
-                                className="btn btn-danger"
-                              >
-                                -
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                        <button
-                          type="button"
-                          onClick={() => push({ key: "", type: "", value: "" })}
-                          className="btn btn-primary mt-3"
-                        >
-                          Add Custom Label
-                        </button>
-                      </div>
-                    )}
-                  </FieldArray>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Saving..." : "Save changes"}
-                  </button>
-                </div>
-              </form>
-            )}
-          </Formik>
-        </div>
-      </div>
+    <div style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
+      <h2>Fetch Darta Information</h2>
+      <TextField
+        label="Enter Darta Number"
+        fullWidth
+        variant="outlined"
+        value={dartaNumber}
+        onChange={(e) => setDartaNumber(e.target.value)}
+        error={!!error}
+        helperText={error}
+        style={{ marginBottom: "16px" }}
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={handleFetchDarta}
+      >
+        Fetch Darta
+      </Button>
     </div>
   );
 };
 
-export default AddForm;
+export default DartaForm;

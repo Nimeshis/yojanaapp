@@ -30,7 +30,7 @@ export interface UiState {
 const initialState: UiState = {
   screenSize: calculateWindowSize(window.innerWidth),
   darkMode: false,
-  navbarVariant: 'navbar-ccccff navbar-light', // Use your new custom color
+  navbarVariant: 'navbar-ccccff', // Use your new custom color
   sidebarSkin: 'sidebar-light-ccccff', // Use your new custom color
   menuSidebarCollapsed: false,
   controlSidebarCollapsed: true,

@@ -23,22 +23,26 @@
 
 /* Set text color to black for the custom navbar */
 .navbar-ccccff {
-  background-color: 	#15eedc !important;
-  color: #000000 !important;
+  background-color: 	#97c2ff  !important;
+  color: #ffffff !important;
+}
+.navbar-1E90FF {
+  background-color: 	#1E90FF  !important;
+  color: #ffffff !important;
 }
 
 /* Set text color to black for the custom sidebar */
 .sidebar-dark-ccccff,
 .sidebar-light-ccccff {
-  background-color: 	#93C572 !important;
-  color: #000000 
+  background-color: 	#ccccff !important;
+  color: #ffffff 
 }
 
 /* Change sidebar menu item hover color */
 .sidebar-dark-ccccff .nav-sidebar .nav-link:hover,
 .sidebar-light-ccccff .nav-sidebar .nav-link:hover {
   background-color: #00A36C !important;
-  color: #0c0c0c !important;
+  color: #ffffff !important;
 }
 
 /* Optional: Change active sidebar menu item background color */
@@ -72,3 +76,14 @@
   animation: spinner 1.2s linear infinite;
 }
 
+/* Custom CSS to remove the sidebar gap */
+.content-wrapper {
+  margin-left: 0 !important;  /* Remove the left margin */
+  width: 100% !important;      /* Ensure it takes the full width */
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.content {
+  margin-left: 0 !important;  /* Reset margin if it was reserved for sidebar */
+  padding: 15px;              /* Add some padding to content for spacing */
+}

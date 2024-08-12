@@ -5,7 +5,7 @@ import { Image } from "@profabric/react-components";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
-import MenuSidebar from "./menu-sidebar/MenuSidebar";
+import Navbar from "./menu-sidebar/MenuNavbar";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -80,7 +80,7 @@ const Main = () => {
       <>
         <Header />
 
-        <MenuSidebar />
+        <Navbar />
 
         <div className="content-wrapper">
           <div className="pt-3" />
@@ -88,8 +88,6 @@ const Main = () => {
             <Outlet />
           </section>
         </div>
-
-       
       </>
     );
   }, [isAppLoaded]);
