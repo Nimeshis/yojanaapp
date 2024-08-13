@@ -102,9 +102,10 @@ const budgetData = {
 };
 
 const FormContainer = styled.div`
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
+  display: flex;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background: #f9f9f9;
@@ -182,6 +183,10 @@ const NayaYojana = () => {
     const actualBudget = budgetData[selectedBudgetSirsak]?.actualBudget || 0;
     setRemainingBudget(actualBudget - amount);
   };
+  const [anudanRakam, setAnudanRakam] = useState(0);
+  const [pahiloChaumasik, setPahiloChaumasik] = useState(0);
+  const [doshroChaumasik, setDoshroChaumasik] = useState(0);
+  const [teshroChaumasik, setTeshroChaumasik] = useState(0);
 
   return (
     <FormContainer>
@@ -195,319 +200,312 @@ const NayaYojana = () => {
         {({ setFieldValue, values }) => (
           <Form>
             <Heading>नया योजना / कार्यक्रम विवरण भर्नुहोस्</Heading>
+            <div className="row">
+              <FormField className="col-4">
+                <Label htmlFor="kisim">प्रकार</Label>
+                <StyledSelect
+                  name="kisim"
+                  options={kisimOptions.map((option) => ({
+                    value: option,
+                    label: option,
+                  }))}
+                  onChange={(option) => setFieldValue("kisim", option.value)}
+                  value={
+                    kisimOptions.find((option) => option === values.kisim)
+                      ? { value: values.kisim, label: values.kisim }
+                      : null
+                  }
+                />
+                <ErrorMessage name="kisim" component={ErrorText} />
+              </FormField>
 
-            <FormField>
-              <Label htmlFor="kisim">प्रकार</Label>
-              <StyledSelect
-                name="kisim"
-                options={kisimOptions.map((option) => ({
-                  value: option,
-                  label: option,
-                }))}
-                onChange={(option) => setFieldValue("kisim", option.value)}
-                value={
-                  kisimOptions.find((option) => option === values.kisim)
-                    ? { value: values.kisim, label: values.kisim }
-                    : null
-                }
-              />
-              <ErrorMessage name="kisim" component={ErrorText} />
-            </FormField>
+              <FormField className="col-8">
+                <Label htmlFor="yojanaName">योजना / कार्यक्रमको नाम</Label>
+                <Input
+                  type="text"
+                  name="yojanaName"
+                  placeholder="योजना / कार्यक्रमको नाम"
+                />
+                <ErrorMessage name="yojanaName" component={ErrorText} />
+              </FormField>
+            </div>
+            <div className="row">
+              <FormField className="col-4">
+                <Label htmlFor="kshetra">क्षेत्र</Label>
+                <StyledSelect
+                  name="kshetra"
+                  options={kshetraOptions.map((option) => ({
+                    value: option,
+                    label: option,
+                  }))}
+                  onChange={(option) => {
+                    const value = option.value;
+                    setSelectedKshetra(value);
+                    setFieldValue("kshetra", value);
+                    setFieldValue("upakshetra", []);
+                  }}
+                  value={
+                    kshetraOptions.find((option) => option === values.kshetra)
+                      ? { value: values.kshetra, label: values.kshetra }
+                      : null
+                  }
+                />
+                <ErrorMessage name="kshetra" component={ErrorText} />
+              </FormField>
 
-            <FormField>
-              <Label htmlFor="yojanaName">योजना / कार्यक्रमको नाम</Label>
-              <Input
-                type="text"
-                name="yojanaName"
-                placeholder="योजना / कार्यक्रमको नाम"
-              />
-              <ErrorMessage name="yojanaName" component={ErrorText} />
-            </FormField>
-
-            <FormField>
-              <Label htmlFor="kshetra">क्षेत्र</Label>
-              <StyledSelect
-                name="kshetra"
-                options={kshetraOptions.map((option) => ({
-                  value: option,
-                  label: option,
-                }))}
-                onChange={(option) => {
-                  const value = option.value;
-                  setSelectedKshetra(value);
-                  setFieldValue("kshetra", value);
-                  setFieldValue("upakshetra", []);
-                }}
-                value={
-                  kshetraOptions.find((option) => option === values.kshetra)
-                    ? { value: values.kshetra, label: values.kshetra }
-                    : null
-                }
-              />
-              <ErrorMessage name="kshetra" component={ErrorText} />
-            </FormField>
-
-            <FormField>
-              <Label htmlFor="upakshetra">उपक्षेत्र</Label>
-              <StyledSelect
-                isMulti
-                name="upakshetra"
-                options={upakshetraOptions[selectedKshetra]?.map((option) => ({
-                  value: option,
-                  label: option,
-                }))}
-                onChange={(option) => {
-                  const values = option ? option.map((opt) => opt.value) : [];
-                  setFieldValue("upakshetra", values);
-                }}
-                value={values.upakshetra?.map((selected) => ({
-                  value: selected,
-                  label: selected,
-                }))}
-              />
-              <ErrorMessage name="upakshetra" component={ErrorText} />
-            </FormField>
-
-            <FormField>
-              <Label htmlFor="kharchaKisim">खर्च किसिम</Label>
-              <StyledSelect
-                name="kharchaKisim"
-                options={kharchaKisimOptions.map((option) => ({
-                  value: option,
-                  label: option,
-                }))}
-                onChange={(option) =>
-                  setFieldValue("kharchaKisim", option.value)
-                }
-                value={
-                  kharchaKisimOptions.find(
-                    (option) => option === values.kharchaKisim
-                  )
-                    ? { value: values.kharchaKisim, label: values.kharchaKisim }
-                    : null
-                }
-              />
-              <ErrorMessage name="kharchaKisim" component={ErrorText} />
-            </FormField>
-
-            <FormField>
-              <Label htmlFor="viniyojanKisim">विनियोजन किसिम</Label>
-              <StyledSelect
-                name="viniyojanKisim"
-                options={viniyojanKisimOptions.map((option) => ({
-                  value: option,
-                  label: option,
-                }))}
-                onChange={(option) => {
-                  setViniyojanKisim(option.value);
-                  setFieldValue("viniyojanKisim", option.value);
-                  setFieldValue("sanchalanGarneWards", []);
-                }}
-                value={
-                  viniyojanKisimOptions.find(
-                    (option) => option === values.viniyojanKisim
-                  )
-                    ? {
-                        value: values.viniyojanKisim,
-                        label: values.viniyojanKisim,
-                      }
-                    : null
-                }
-              />
-              <ErrorMessage name="viniyojanKisim" component={ErrorText} />
-            </FormField>
-
-            {viniyojanKisim === "गाउपालिका स्तरीय" && (
-              <FormField>
-                <Label htmlFor="sanchalanHuneWards">संचालन हुने वडा</Label>
+              <FormField className="col-4">
+                <Label htmlFor="upakshetra">उपक्षेत्र</Label>
                 <StyledSelect
                   isMulti
-                  name="sanchalanHuneWards"
-                  options={wardOptions}
-                  onChange={(option) =>
-                    setFieldValue(
-                      "sanchalanHuneWards",
-                      option ? option.map((opt) => opt.value) : []
-                    )
-                  }
-                  value={values.sanchalanHuneWards?.map((ward) => ({
-                    value: ward,
-                    label: ward,
+                  name="upakshetra"
+                  options={upakshetraOptions[selectedKshetra]?.map(
+                    (option) => ({
+                      value: option,
+                      label: option,
+                    })
+                  )}
+                  onChange={(option) => {
+                    const values = option ? option.map((opt) => opt.value) : [];
+                    setFieldValue("upakshetra", values);
+                  }}
+                  value={values.upakshetra?.map((selected) => ({
+                    value: selected,
+                    label: selected,
                   }))}
                 />
-                <ErrorMessage name="sanchalanHuneWards" component={ErrorText} />
+                <ErrorMessage name="upakshetra" component={ErrorText} />
               </FormField>
-            )}
 
-            {viniyojanKisim === "वडा स्तरीय" && (
-              <FormField>
-                <Label htmlFor="sanchalanHuneWards">संचालन हुने वडा</Label>
+              <FormField className="col-4">
+                <Label htmlFor="kharchaKisim">खर्च किसिम</Label>
                 <StyledSelect
-                  isMulti
-                  name="sanchalanHuneWards"
-                  options={wardOptions}
-                  onChange={(option) =>
-                    setFieldValue(
-                      "sanchalanHuneWards",
-                      option ? option.map((opt) => opt.value) : []
-                    )
-                  }
-                  value={values.sanchalanHuneWards?.map((ward) => ({
-                    value: ward,
-                    label: ward,
+                  name="kharchaKisim"
+                  options={kharchaKisimOptions.map((option) => ({
+                    value: option,
+                    label: option,
                   }))}
+                  onChange={(option) =>
+                    setFieldValue("kharchaKisim", option.value)
+                  }
+                  value={
+                    kharchaKisimOptions.find(
+                      (option) => option === values.kharchaKisim
+                    )
+                      ? {
+                          value: values.kharchaKisim,
+                          label: values.kharchaKisim,
+                        }
+                      : null
+                  }
                 />
-                <ErrorMessage name="sanchalanHuneWards" component={ErrorText} />
+                <ErrorMessage name="kharchaKisim" component={ErrorText} />
               </FormField>
-            )}
+            </div>
+            <div className="row">
+              <FormField className="col-4">
+                <Label htmlFor="viniyojanKisim">विनियोजन किसिम</Label>
+                <StyledSelect
+                  name="viniyojanKisim"
+                  options={viniyojanKisimOptions.map((option) => ({
+                    value: option,
+                    label: option,
+                  }))}
+                  onChange={(option) => {
+                    setViniyojanKisim(option.value);
+                    setFieldValue("viniyojanKisim", option.value);
+                    setFieldValue("sanchalanGarneWards", []);
+                  }}
+                  value={
+                    viniyojanKisimOptions.find(
+                      (option) => option === values.viniyojanKisim
+                    )
+                      ? {
+                          value: values.viniyojanKisim,
+                          label: values.viniyojanKisim,
+                        }
+                      : null
+                  }
+                />
+                <ErrorMessage name="viniyojanKisim" component={ErrorText} />
+              </FormField>
 
-            {viniyojanKisim === "वडा स्तरीय" && (
-              <FormField>
-                <Label htmlFor="sanchalanGarneWards">संचालन गर्ने वडाहरु</Label>
-                <StyledSelect
-                  isMulti
-                  name="sanchalanGarneWards"
-                  options={wardOptions}
-                  onChange={(option) =>
-                    setFieldValue(
-                      "sanchalanGarneWards",
-                      option ? option.map((opt) => opt.value) : []
-                    )
-                  }
-                  value={values.sanchalanGarneWards?.map((ward) => ({
-                    value: ward,
-                    label: ward,
-                  }))}
-                />
-                <ErrorMessage
-                  name="sanchalanGarneWards"
-                  component={ErrorText}
-                />
-              </FormField>
-            )}
-            <FormField>
-              <Label htmlFor="budgetSirsak">बजेट शिर्षक</Label>
-              <Field
-                name="budgetSirsak"
-                component={({ field, form }) => (
+              {viniyojanKisim === "गाउपालिका स्तरीय" && (
+                <FormField className="col-4">
+                  <Label htmlFor="sanchalanHuneWards">संचालन हुने वडा</Label>
                   <StyledSelect
-                    {...field}
-                    options={Object.keys(budgetData).map((key) => ({
-                      value: key,
-                      label: key,
-                    }))}
+                    isMulti
+                    name="sanchalanHuneWards"
+                    options={wardOptions}
                     onChange={(option) =>
-                      handleBudgetSirsakChange(option, setFieldValue)
+                      setFieldValue(
+                        "sanchalanHuneWards",
+                        option ? option.map((opt) => opt.value) : []
+                      )
                     }
+                    value={values.sanchalanHuneWards?.map((ward) => ({
+                      value: ward,
+                      label: ward,
+                    }))}
                   />
-                )}
-              />
-              <ErrorMessage name="budgetSirsak" component={ErrorText} />
-            </FormField>
-
-            {selectedBudgetSirsak && (
-              <>
-                <FormField>
-                  <Label htmlFor="anudanRakam">अनुदान रकम</Label>
-                  <Input
-                    type="number"
-                    name="anudanRakam"
-                    onChange={(event) =>
-                      handleAnudanRakamChange(event, setFieldValue)
-                    }
+                  <ErrorMessage
+                    name="sanchalanHuneWards"
+                    component={ErrorText}
                   />
-                  <ErrorMessage name="anudanRakam" component={ErrorText} />
                 </FormField>
+              )}
 
-                {remainingBudget !== null && (
-                  <>
-                    <FormField>
-                      <Label>वास्तविक बजेट</Label>
-                      <div>
-                        {budgetData[selectedBudgetSirsak]?.actualBudget || 0}
-                      </div>
-                    </FormField>
+              {viniyojanKisim === "वडा स्तरीय" && (
+                <FormField className="col-4">
+                  <Label htmlFor="sanchalanHuneWards">संचालन हुने वडा</Label>
+                  <StyledSelect
+                    isMulti
+                    name="sanchalanHuneWards"
+                    options={wardOptions}
+                    onChange={(option) =>
+                      setFieldValue(
+                        "sanchalanHuneWards",
+                        option ? option.map((opt) => opt.value) : []
+                      )
+                    }
+                    value={values.sanchalanHuneWards?.map((ward) => ({
+                      value: ward,
+                      label: ward,
+                    }))}
+                  />
+                  <ErrorMessage
+                    name="sanchalanHuneWards"
+                    component={ErrorText}
+                  />
+                </FormField>
+              )}
 
-                    <FormField>
-                      <Label>बाँकी बजेट</Label>
-                      <div>{remainingBudget}</div>
-                    </FormField>
-                  </>
-                )}
-              </>
-            )}
-            {/* <FormField>
-              <Label htmlFor="budgetSirsak">बजेट शिर्षक</Label>
-              <StyledSelect
-                name="budgetSirsak"
-                options={budgetSirsakOptions.map((option) => ({
-                  value: option,
-                  label: option,
-                }))}
-                onChange={(option) =>
-                  setFieldValue("budgetSirsak", option.value)
-                }
-                value={
-                  budgetSirsakOptions.find(
-                    (option) => option === values.budgetSirsak
-                  )
-                    ? {
-                        value: values.budgetSirsak,
-                        label: values.budgetSirsak,
+              {viniyojanKisim === "वडा स्तरीय" && (
+                <FormField className="col-4">
+                  <Label htmlFor="sanchalanGarneWards">
+                    संचालन गर्ने वडाहरु
+                  </Label>
+                  <StyledSelect
+                    isMulti
+                    name="sanchalanGarneWards"
+                    options={wardOptions}
+                    onChange={(option) =>
+                      setFieldValue(
+                        "sanchalanGarneWards",
+                        option ? option.map((opt) => opt.value) : []
+                      )
+                    }
+                    value={values.sanchalanGarneWards?.map((ward) => ({
+                      value: ward,
+                      label: ward,
+                    }))}
+                  />
+                  <ErrorMessage
+                    name="sanchalanGarneWards"
+                    component={ErrorText}
+                  />
+                </FormField>
+              )}
+
+              <FormField className="col-6">
+                <Label htmlFor="budgetSirsak">बजेट शिर्षक</Label>
+                <StyledSelect
+                  name="budgetSirsak"
+                  options={budgetSirsakOptions.map((option) => ({
+                    value: option,
+                    label: option,
+                  }))}
+                  onChange={(option) =>
+                    handleBudgetSirsakChange(option, setFieldValue)
+                  }
+                  value={
+                    budgetSirsakOptions.find(
+                      (option) => option === values.budgetSirsak
+                    )
+                      ? {
+                          value: values.budgetSirsak,
+                          label: values.budgetSirsak,
+                        }
+                      : null
+                  }
+                />
+                <ErrorMessage name="budgetSirsak" component={ErrorText} />
+              </FormField>
+            </div>
+            <div className="row">
+              {selectedBudgetSirsak && (
+                <>
+                  <FormField className="col-4">
+                    <Label htmlFor="anudanRakam">अनुदान रकम</Label>
+                    <Input
+                      type="number"
+                      name="anudanRakam"
+                      onChange={(event) =>
+                        handleAnudanRakamChange(event, setFieldValue)
                       }
-                    : null
-                }
-              />
-              <ErrorMessage name="budgetSirsak" component={ErrorText} />
-            </FormField> */}
+                    />
+                    <ErrorMessage name="anudanRakam" component={ErrorText} />
+                  </FormField>
 
-            {/* <FormField>
-              <Label htmlFor="anudanRakam">अनुदान रु</Label>
-              <Input type="number" name="anudanRakam" placeholder="अनुदान रु" />
-              <ErrorMessage name="anudanRakam" component={ErrorText} />
-            </FormField> */}
+                  {remainingBudget !== null && (
+                    <>
+                      <FormField className="col-4">
+                        <Label>वास्तविक बजेट</Label>
+                        <div>
+                          {budgetData[selectedBudgetSirsak]?.actualBudget || 0}
+                        </div>
+                      </FormField>
 
-            <FormField>
-              <Label htmlFor="binyojanShrot">बिनियोजन श्रोत</Label>
-              <Input
-                type="text"
-                name="binyojanShrot"
-                placeholder="बिनियोजन श्रोत र व्याख्या"
-              />
-              <ErrorMessage name="binyojanShrot" component={ErrorText} />
-            </FormField>
+                      <FormField className="col-4">
+                        <Label>बाँकी बजेट</Label>
+                        <div>{remainingBudget}</div>
+                      </FormField>
+                    </>
+                  )}
+                </>
+              )}
 
-            <FormField>
-              <Label htmlFor="firstQuarter">पहिलो चौमासिक</Label>
-              <Input
-                type="number"
-                name="firstQuarter"
-                placeholder="पहिलो चौमासिक"
-              />
-              <ErrorMessage name="firstQuarter" component={ErrorText} />
-            </FormField>
+              <FormField>
+                <Label htmlFor="binyojanShrot">बिनियोजन श्रोत</Label>
+                <Input
+                  type="text"
+                  name="binyojanShrot"
+                  placeholder="बिनियोजन श्रोत र व्याख्या"
+                />
+                <ErrorMessage name="binyojanShrot" component={ErrorText} />
+              </FormField>
 
-            <FormField>
-              <Label htmlFor="secondQuarter">दोस्रो चौमासिक</Label>
-              <Input
-                type="number"
-                name="secondQuarter"
-                placeholder="दोस्रो चौमासिक"
-              />
-              <ErrorMessage name="secondQuarter" component={ErrorText} />
-            </FormField>
+              <FormField>
+                <Label htmlFor="firstQuarter">पहिलो चौमासिक</Label>
+                <Input
+                  type="number"
+                  name="firstQuarter"
+                  placeholder="पहिलो चौमासिक"
+                />
+                <ErrorMessage name="firstQuarter" component={ErrorText} />
+              </FormField>
 
-            <FormField>
-              <Label htmlFor="thirdQuarter">तेस्रो चौमासिक</Label>
-              <Input
-                type="number"
-                name="thirdQuarter"
-                placeholder="तेस्रो चौमासिक"
-              />
-              <ErrorMessage name="thirdQuarter" component={ErrorText} />
-            </FormField>
+              <FormField>
+                <Label htmlFor="secondQuarter">दोस्रो चौमासिक</Label>
+                <Input
+                  type="number"
+                  name="secondQuarter"
+                  placeholder="दोस्रो चौमासिक"
+                />
+                <ErrorMessage name="secondQuarter" component={ErrorText} />
+              </FormField>
 
-            <SubmitButton type="submit">पेश गर्नुहोस्</SubmitButton>
+              <FormField>
+                <Label htmlFor="thirdQuarter">तेस्रो चौमासिक</Label>
+                <Input
+                  type="number"
+                  name="thirdQuarter"
+                  placeholder="तेस्रो चौमासिक"
+                />
+                <ErrorMessage name="thirdQuarter" component={ErrorText} />
+              </FormField>
+
+              <SubmitButton type="submit">पेश गर्नुहोस्</SubmitButton>
+            </div>
           </Form>
         )}
       </Formik>
