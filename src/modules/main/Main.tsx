@@ -1,14 +1,12 @@
 import Header from "@app/modules/main/header/Header";
-import { toggleSidebarMenu } from "@app/store/reducers/ui";
 import { addWindowClass, removeWindowClass } from "@app/utils/helpers";
 import { Image } from "@profabric/react-components";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import Navbar from "./menu-sidebar/MenuNavbar";
 
 const Main = () => {
-  const dispatch = useDispatch();
   const menuSidebarCollapsed = useSelector(
     (state: any) => state.ui.menuSidebarCollapsed
   );
@@ -18,10 +16,6 @@ const Main = () => {
   const screenSize = useSelector((state: any) => state.ui.screenSize);
   const authentication = useSelector((state: any) => state.auth.authentication);
   const [isAppLoaded, setIsAppLoaded] = useState(false);
-
-  const handleToggleMenuSidebar = () => {
-    dispatch(toggleSidebarMenu());
-  };
 
   useEffect(() => {
     setIsAppLoaded(Boolean(authentication));

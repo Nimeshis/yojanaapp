@@ -77,9 +77,7 @@ const Login = () => {
               rounded
             />
           </Link>
-          <span className="h3 font-weight-bold ">
-            योजना/कार्यक्रम व्यस्थापन{" "}
-          </span>
+          <span className="h3 font-weight-bold ">डिलासैनी गाउँपालिका </span>
         </div>
         <div className="card-body">
           <p className="login-box-msg">{t("आफ्नो विवरण हाल्नुहोस्")}</p>

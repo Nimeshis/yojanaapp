@@ -38,7 +38,7 @@ const Header = () => {
               rounded
             />
             <span className="brand-text font-weight-bold m-10">
-              योजना/कार्यक्रम वेवस्थापन
+              योजना/कार्यक्रम वेवस्थापन (डिलासैनी गाउँपालिका)
             </span>
           </Link>
         </li>

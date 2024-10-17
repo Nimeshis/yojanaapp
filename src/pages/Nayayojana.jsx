@@ -124,15 +124,15 @@ const Label = styled.label`
 `;
 
 const StyledSelect = styled(Select)`
-  flex: 2;
-  padding: 10px;
+  flex: 4;
+  padding: 12px;
 `;
 
 const Input = styled(Field)`
-  flex: 2;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  flex: 3.25;
+  padding: 8px;
+  border: 0.5px solid #ddd;
+  border-radius: 3px;
 `;
 
 const ErrorText = styled.div`
@@ -201,7 +201,7 @@ const NayaYojana = () => {
           <Form>
             <Heading>नया योजना / कार्यक्रम विवरण भर्नुहोस्</Heading>
             <div className="row">
-              <FormField className="col-4">
+              <FormField className="col-5">
                 <Label htmlFor="kisim">प्रकार</Label>
                 <StyledSelect
                   name="kisim"
@@ -219,8 +219,10 @@ const NayaYojana = () => {
                 <ErrorMessage name="kisim" component={ErrorText} />
               </FormField>
 
-              <FormField className="col-8">
-                <Label htmlFor="yojanaName">योजना / कार्यक्रमको नाम</Label>
+              <FormField className="col-7">
+                <Label htmlFor="yojanaName">
+                  योजना /<br></br> कार्यक्रमको नाम
+                </Label>
                 <Input
                   type="text"
                   name="yojanaName"
@@ -230,7 +232,7 @@ const NayaYojana = () => {
               </FormField>
             </div>
             <div className="row">
-              <FormField className="col-4">
+              <FormField className="col-5">
                 <Label htmlFor="kshetra">क्षेत्र</Label>
                 <StyledSelect
                   name="kshetra"
@@ -254,7 +256,9 @@ const NayaYojana = () => {
               </FormField>
 
               <FormField className="col-4">
-                <Label htmlFor="upakshetra">उपक्षेत्र</Label>
+                <Label htmlFor="upakshetra">
+                  उपक्षेत्र <></>
+                </Label>
                 <StyledSelect
                   isMulti
                   name="upakshetra"
@@ -276,7 +280,7 @@ const NayaYojana = () => {
                 <ErrorMessage name="upakshetra" component={ErrorText} />
               </FormField>
 
-              <FormField className="col-4">
+              <FormField className="col-3">
                 <Label htmlFor="kharchaKisim">खर्च किसिम</Label>
                 <StyledSelect
                   name="kharchaKisim"
@@ -302,7 +306,7 @@ const NayaYojana = () => {
               </FormField>
             </div>
             <div className="row">
-              <FormField className="col-4">
+              <FormField className="col-5">
                 <Label htmlFor="viniyojanKisim">विनियोजन किसिम</Label>
                 <StyledSelect
                   name="viniyojanKisim"
@@ -406,7 +410,7 @@ const NayaYojana = () => {
                 </FormField>
               )}
 
-              <FormField className="col-6">
+              <FormField className="col-7">
                 <Label htmlFor="budgetSirsak">बजेट शिर्षक</Label>
                 <StyledSelect
                   name="budgetSirsak"
@@ -434,7 +438,7 @@ const NayaYojana = () => {
             <div className="row">
               {selectedBudgetSirsak && (
                 <>
-                  <FormField className="col-4">
+                  <FormField className="col-5">
                     <Label htmlFor="anudanRakam">अनुदान रकम</Label>
                     <Input
                       type="number"
@@ -448,14 +452,14 @@ const NayaYojana = () => {
 
                   {remainingBudget !== null && (
                     <>
-                      <FormField className="col-4">
+                      <FormField className="col-3">
                         <Label>वास्तविक बजेट</Label>
                         <div>
                           {budgetData[selectedBudgetSirsak]?.actualBudget || 0}
                         </div>
                       </FormField>
-
-                      <FormField className="col-4">
+                      <div className="col-1"></div>
+                      <FormField className="col-3">
                         <Label>बाँकी बजेट</Label>
                         <div>{remainingBudget}</div>
                       </FormField>
@@ -464,8 +468,10 @@ const NayaYojana = () => {
                 </>
               )}
 
-              <FormField>
-                <Label htmlFor="binyojanShrot">बिनियोजन श्रोत</Label>
+              <FormField className="col-5">
+                <Label htmlFor="binyojanShrot">
+                  बिनियोजन <br></br>श्रोत
+                </Label>
                 <Input
                   type="text"
                   name="binyojanShrot"
@@ -473,8 +479,9 @@ const NayaYojana = () => {
                 />
                 <ErrorMessage name="binyojanShrot" component={ErrorText} />
               </FormField>
-
-              <FormField>
+            </div>
+            <div className="row">
+              <FormField className="col-5">
                 <Label htmlFor="firstQuarter">पहिलो चौमासिक</Label>
                 <Input
                   type="number"
@@ -484,7 +491,7 @@ const NayaYojana = () => {
                 <ErrorMessage name="firstQuarter" component={ErrorText} />
               </FormField>
 
-              <FormField>
+              <FormField className="col-3">
                 <Label htmlFor="secondQuarter">दोस्रो चौमासिक</Label>
                 <Input
                   type="number"
@@ -494,7 +501,7 @@ const NayaYojana = () => {
                 <ErrorMessage name="secondQuarter" component={ErrorText} />
               </FormField>
 
-              <FormField>
+              <FormField className="col-3">
                 <Label htmlFor="thirdQuarter">तेस्रो चौमासिक</Label>
                 <Input
                   type="number"
@@ -503,8 +510,13 @@ const NayaYojana = () => {
                 />
                 <ErrorMessage name="thirdQuarter" component={ErrorText} />
               </FormField>
+            </div>
 
-              <SubmitButton type="submit">पेश गर्नुहोस्</SubmitButton>
+            <div className="row">
+              <div className="col-5"></div>
+              <SubmitButton className="col-2 " type="submit">
+                पेश गर्नुहोस्
+              </SubmitButton>
             </div>
           </Form>
         )}
